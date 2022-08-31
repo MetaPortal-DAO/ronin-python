@@ -1,0 +1,132 @@
+{
+  "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "entranceFee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "raffle__NotEnoughETHEntered",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "RaffleEnter",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "enterRaffle",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getEntranceFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPlayer",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xcb305a0a5ce580d5ab0ffb3614073238743f0a8ff947b3ff8b8bf350721fafaa",
+  "receipt": {
+    "to": null,
+    "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "transactionIndex": 0,
+    "gasUsed": "244551",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x2b7bc251bf929ddd8c15b77ee881bcb49dcfdc8eef61ad8757794dc8a93ffa38",
+    "transactionHash": "0xcb305a0a5ce580d5ab0ffb3614073238743f0a8ff947b3ff8b8bf350721fafaa",
+    "logs": [],
+    "blockNumber": 1,
+    "cumulativeGasUsed": "244551",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "1000000000000000000"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "b1811d6c714683fca4a45b1c6d3dd0de",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"entranceFee\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"raffle__NotEnoughETHEntered\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"RaffleEnter\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"enterRaffle\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getEntranceFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getPlayer\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/raffle.sol\":\"raffle\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/raffle.sol\":{\"content\":\"//SPDX-License-Identifier: MIT\\n\\npragma solidity ^0.8.9;\\n\\ncontract raffle {\\n  /* State Variables */\\n  uint256 private immutable i_entranceFee;\\n  address payable[] private s_players;\\n\\n  /* Events */\\n  event RaffleEnter(address indexed player);\\n\\n  error raffle__NotEnoughETHEntered();\\n\\n  constructor(uint256 entranceFee) {\\n    i_entranceFee = entranceFee;\\n  }\\n\\n  function enterRaffle() public payable {\\n    if (msg.value < i_entranceFee) {\\n      revert raffle__NotEnoughETHEntered();\\n    }\\n    s_players.push(payable(msg.sender));\\n    emit RaffleEnter(msg.sender);\\n  }\\n\\n  //function pickRandomWinner() {}\\n\\n  function getEntranceFee() public view returns (uint256) {\\n    return i_entranceFee;\\n  }\\n\\n  function getPlayer(uint256 index) public view returns (address) {\\n    return s_players[index];\\n  }\\n}\\n\\n// people should be able to\\n// enter the lottery, pay some amount\\n// pick a random winner (verifiably random)\\n// winner to be selected every x time -> completely automated\\n\\n// need chainlink oracle -> randomess, automated execution (chainlink keepers)\\n\",\"keccak256\":\"0x073741d7a16ec9d0aa40bc228fb7a91973c86bf7b211e654c16e6480736e0658\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60a060405234801561001057600080fd5b506040516104373803806104378339818101604052810190610032919061007b565b8060808181525050506100a8565b600080fd5b6000819050919050565b61005881610045565b811461006357600080fd5b50565b6000815190506100758161004f565b92915050565b60006020828403121561009157610090610040565b5b600061009f84828501610066565b91505092915050565b60805161036f6100c86000396000818160af015260d5015261036f6000f3fe6080604052600436106100345760003560e01c806309bc33a7146100395780632cfcc53914610064578063e55ae4e81461006e575b600080fd5b34801561004557600080fd5b5061004e6100ab565b60405161005b9190610235565b60405180910390f35b61006c6100d3565b005b34801561007a57600080fd5b5061009560048036038101906100909190610281565b6101d5565b6040516100a291906102ef565b60405180910390f35b60007f0000000000000000000000000000000000000000000000000000000000000000905090565b7f000000000000000000000000000000000000000000000000000000000000000034101561012d576040517fcfa9c30a00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000339080600181540180825580915050600190039060005260206000200160009091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055503373ffffffffffffffffffffffffffffffffffffffff167f0805e1d667bddb8a95f0f09880cf94f403fb596ce79928d9f29b74203ba284d460405160405180910390a2565b60008082815481106101ea576101e961030a565b5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050919050565b6000819050919050565b61022f8161021c565b82525050565b600060208201905061024a6000830184610226565b92915050565b600080fd5b61025e8161021c565b811461026957600080fd5b50565b60008135905061027b81610255565b92915050565b60006020828403121561029757610296610250565b5b60006102a58482850161026c565b91505092915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006102d9826102ae565b9050919050565b6102e9816102ce565b82525050565b600060208201905061030460008301846102e0565b92915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052603260045260246000fdfea264697066735822122005dc14f859a0c852ba62d1cb336dc749609dd281f383e12f0e1fbe306c78ad7c64736f6c63430008090033",
+  "deployedBytecode": "0x6080604052600436106100345760003560e01c806309bc33a7146100395780632cfcc53914610064578063e55ae4e81461006e575b600080fd5b34801561004557600080fd5b5061004e6100ab565b60405161005b9190610235565b60405180910390f35b61006c6100d3565b005b34801561007a57600080fd5b5061009560048036038101906100909190610281565b6101d5565b6040516100a291906102ef565b60405180910390f35b60007f0000000000000000000000000000000000000000000000000000000000000000905090565b7f000000000000000000000000000000000000000000000000000000000000000034101561012d576040517fcfa9c30a00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000339080600181540180825580915050600190039060005260206000200160009091909190916101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055503373ffffffffffffffffffffffffffffffffffffffff167f0805e1d667bddb8a95f0f09880cf94f403fb596ce79928d9f29b74203ba284d460405160405180910390a2565b60008082815481106101ea576101e961030a565b5b9060005260206000200160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050919050565b6000819050919050565b61022f8161021c565b82525050565b600060208201905061024a6000830184610226565b92915050565b600080fd5b61025e8161021c565b811461026957600080fd5b50565b60008135905061027b81610255565b92915050565b60006020828403121561029757610296610250565b5b60006102a58482850161026c565b91505092915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006102d9826102ae565b9050919050565b6102e9816102ce565b82525050565b600060208201905061030460008301846102e0565b92915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052603260045260246000fdfea264697066735822122005dc14f859a0c852ba62d1cb336dc749609dd281f383e12f0e1fbe306c78ad7c64736f6c63430008090033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 6,
+        "contract": "contracts/raffle.sol:raffle",
+        "label": "s_players",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_array(t_address_payable)dyn_storage"
+      }
+    ],
+    "types": {
+      "t_address_payable": {
+        "encoding": "inplace",
+        "label": "address payable",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address_payable)dyn_storage": {
+        "base": "t_address_payable",
+        "encoding": "dynamic_array",
+        "label": "address payable[]",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

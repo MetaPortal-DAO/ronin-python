@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/raffle.sol": {
+      "content": "//SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.9;\n\ncontract raffle {\n  /* State Variables */\n  uint256 private immutable i_entranceFee;\n  address payable[] private s_players;\n\n  /* Events */\n  event RaffleEnter(address indexed player);\n\n  error raffle__NotEnoughETHEntered();\n\n  constructor(uint256 entranceFee) {\n    i_entranceFee = entranceFee;\n  }\n\n  function enterRaffle() public payable {\n    if (msg.value < i_entranceFee) {\n      revert raffle__NotEnoughETHEntered();\n    }\n    s_players.push(payable(msg.sender));\n    emit RaffleEnter(msg.sender);\n  }\n\n  //function pickRandomWinner() {}\n\n  function getEntranceFee() public view returns (uint256) {\n    return i_entranceFee;\n  }\n\n  function getPlayer(uint256 index) public view returns (address) {\n    return s_players[index];\n  }\n}\n\n// people should be able to\n// enter the lottery, pay some amount\n// pick a random winner (verifiably random)\n// winner to be selected every x time -> completely automated\n\n// need chainlink oracle -> randomess, automated execution (chainlink keepers)\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

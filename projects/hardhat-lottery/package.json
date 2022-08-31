@@ -20,8 +20,11 @@
     "dotenv": "^16.0.1",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.0",
+    "hardhat-contract-sizer": "^2.6.1",
     "hardhat-deploy": "^0.11.12",
     "hardhat-gas-reporter": "^1.0.8",
+    "hardhat-shorthand": "^1.0.0",
+    "solhint": "^3.3.7",
     "solidity-coverage": "^0.7.21",
     "typechain": "^8.1.0",
     "waffle": "^0.0.4"
@@ -32,6 +35,8 @@
     "lint": "yarn solhint 'contracts/*.sol'",
     "lint:fix": "yarn solhint 'contracts/*.sol' --fix",
     "format": "yarn prettier --write .",
-    "coverage": "yarn hardhat coverage"
+    "coverage": "yarn hardhat coverage",
+    "comp": "yarn hardhat compile",
+    "raffle": "yarn hardhat run scripts/enterRaffle.js"
   }
 }
