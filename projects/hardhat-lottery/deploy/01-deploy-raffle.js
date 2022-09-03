@@ -1,15 +1,57 @@
-const { getNamedAccounts, deployments, network } = require("hardhat");
+const { getNamedAccounts, deployments, network, ethers } = require("hardhat");
+const { developmentChains, networkConfig } = require("../helper-hardhat-config");
+const { verify } = require("../utils/verify");
+
+const VRF_SUB_FUND_AMOUNT = ethers.utils.parseEther("30");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
-  const chainid = network.config.chainId;
+  const chainId = network.config.chainId;
+  let vrfCoordinatorV2address;
+  let subscriptionId;
 
+  // how to get subscription ID on development chain!
+  // can make it programatically but also on UI
+
+  if (developmentChains.includes(network.name)) {
+    const VRFCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock");
+    vrfCoordinatorV2address = VRFCoordinatorV2Mock.address;
+    const transactionResponse = await VRFCoordinatorV2Mock.createSubscription();
+    const transactionReceipt = await transactionResponse.wait(1);
+    // b/c transaction subscriptino creates an ID
+    subscriptionId = transactionReceipt.events[0].args.subId;
+
+    // now fund the subscription
+    await VRFCoordinatorV2Mock.fundSubscription(subscriptionId, VRF_SUB_FUND_AMOUNT);
+  } else {
+    vrfCoordinatorV2address = networkConfig[chainId]["vrfCoordinatorV2"];
+    subscriptionId = networkConfig[chainId]["subscriptionId"];
+  }
+  const entranceFee = networkConfig[chainId]["entranceFee"];
+  const gasLane = networkConfig[chainId]["gasLane"];
+  const callbackGasLimit = networkConfig[chainId]["callbackGasLimit"];
+  const interval = networkConfig[chainId]["interval"];
+  const args = [
+    vrfCoordinatorV2address,
+    entranceFee,
+    gasLane,
+    subscriptionId,
+    callbackGasLimit,
+    interval,
+  ];
   const raffle = await deploy("raffle", {
     from: deployer,
-    args: [ethers.utils.parseEther("1")],
+    args: args,
     log: true,
+    waitConfirmations: network.config.blockConfirmations || 1,
   });
+
+  if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+    log("Verifying...");
+    await verify(raffle.address, args);
+    log("-----------------------------------");
+  }
 };
 
 module.exports.tags = ["all", "raffle"];

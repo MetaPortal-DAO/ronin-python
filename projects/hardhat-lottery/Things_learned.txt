@@ -1,0 +1,26 @@
+1. can initialize two contracts at once by inheriting and then doing two constructors 
+in the constructor argument
+
+2. can implement chainlink keepers or VRF by inheriting their contracts
+VRF is a contract call - so inherit and initialize using interface and address
+Then just call the function on the initialized contract object 
+
+    uint256 requestId = i_vrfCoordinator.requestRandomWords(
+      i_gaslane, // gaslane
+      i_subscriptionId,
+      REQUEST_CONFIRMATIONS,
+      i_callbackGasLimit,
+      NUM_WORDS
+    );
+
+3. you can implement chainlink keepers by having a keeper compliant contract
+to do this implement the interface to keep yourself accountable 
+then you need to implement checkupkeep and performupkeep according to their specs 
+
+4. When testing you can test any scenario using hardhat network reference 
+(can set storage at any place, evm_increaseTime, evm_mine)
+
+5. using callstatic returns the return value of the function (like view) instead of 
+the transaction object that hardhat normally returns 
+recall transactionResponse = await ethers.getContract("hoingbo", deployer")
+transactionReceipt.await(1)

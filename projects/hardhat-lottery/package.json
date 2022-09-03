@@ -37,6 +37,7 @@
     "format": "yarn prettier --write .",
     "coverage": "yarn hardhat coverage",
     "comp": "yarn hardhat compile",
-    "raffle": "yarn hardhat run scripts/enterRaffle.js"
+    "raffle": "yarn hardhat run scripts/enterRaffle.js",
+    "dep": "yarn hardhat deploy"
   }
 }
