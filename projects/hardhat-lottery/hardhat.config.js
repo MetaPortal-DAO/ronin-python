@@ -75,6 +75,6 @@ module.exports = {
     },
   },
   mocha: {
-    timeout: 500000,
+    timeout: 200000,
   },
 };
