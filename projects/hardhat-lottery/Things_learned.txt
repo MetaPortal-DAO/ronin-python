@@ -24,3 +24,7 @@ then you need to implement checkupkeep and performupkeep according to their spec
 the transaction object that hardhat normally returns 
 recall transactionResponse = await ethers.getContract("hoingbo", deployer")
 transactionReceipt.await(1)
+
+6. defining new promises to listen to events (ie for winner to be picked or any event) 
+- await new Promise(async (resolve, reject) => {} 
+- anything below this only executes after the promise resolves
