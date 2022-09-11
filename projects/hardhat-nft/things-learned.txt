@@ -1,0 +1,7 @@
+1. Use pinata via the SDK - initialize Pinata object via pinataSDK(key, secretkey)
+- create read stream using fs.createReadStream(filepath)
+- pinata.pinFiletoIPFS(readableFileStream)
+
+2. upload images AND the metadata
+- construct metadata as template in deploy script 
+- use response from storing images to IPFS to populate object params
