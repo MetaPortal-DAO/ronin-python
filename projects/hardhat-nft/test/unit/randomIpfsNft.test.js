@@ -8,11 +8,12 @@ const { developmentChains } = require("../../helper-hardhat-config");
 !developmentChains.includes(network.name)
   ? describe.skip
   : describe("RandomIpfsNft", function () {
-      let deployer, randomIpfsNft, mintFee, VRFCoordinatorV2Mock;
+      let deployer, randomIpfsNft, mintFee, VRFCoordinatorV2Mock, minter;
 
       beforeEach(async () => {
         accounts = await ethers.getSigners();
         deployer = accounts[0];
+        minter = accounts[1];
         await deployments.fixture(["mocks", "main"]);
         randomIpfsNft = await ethers.getContract("RandomIpfsNft");
         VRFCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock", deployer);
@@ -37,7 +38,17 @@ const { developmentChains } = require("../../helper-hardhat-config");
           assert.equal(tokenCounter, 1);
         });
 
-        it("");
+        it("mints NFT to the minter address", async () => {
+          const connectedMint = await randomIpfsNft.connect(randomIpfsNft, minter);
+          const tx = connectedMint.requestNft({ value: mintFees });
+          const txReceipt = await tx.wait(1);
+          const tx1 = await VRFCoordinatorV2Mock.fulfillRandomWords(
+            txReceipt.events[1].args.requestid,
+            randomIpfsNft.address
+          );
+          const txReceipt1 = await tx1.wait(1);
+          console.log(minter.balance);
+        });
       });
 
       describe("withdraw", () => {
