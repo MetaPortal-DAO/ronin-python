@@ -53,6 +53,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, fundAmount);
   } else {
     vrfCoordinatorV2Address = networkConfig[chainId].vrfCoordinatorV2;
+    subscriptionId = networkConfig[chainId].subscriptionId;
   }
 
   const args = [

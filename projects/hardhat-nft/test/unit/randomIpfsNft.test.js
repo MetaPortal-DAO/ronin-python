@@ -1,8 +1,5 @@
 const { assert } = require("chai");
 const { network, deployments, ethers } = require("hardhat");
-const {
-  TASK_COMPILE_SOLIDITY_HANDLE_COMPILATION_JOBS_FAILURES,
-} = require("hardhat/builtin-tasks/task-names");
 const { developmentChains } = require("../../helper-hardhat-config");
 
 !developmentChains.includes(network.name)
