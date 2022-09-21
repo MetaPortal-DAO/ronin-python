@@ -20,6 +20,9 @@ const PRIVATE_KEY =
   process.env.PRIVATE_KEY || "0x11ee3108a03081fe260ecdc106554d09d9d1209bcafd46942b10e02943effc4a";
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "";
+const MUMBAI_RPC_URL = process.env.MUMBAI_RPC_URL || "";
+const ARBY_RPC_URL = process.env.ARBY_RPC_URL || "";
+const OP_RPC_URL = process.env.OP_RPC_URL || "";
 
 module.exports = {
   defaultNetwork: "hardhat",
@@ -40,6 +43,24 @@ module.exports = {
       url: GOERLI_RPC_URL,
       accounts: [PRIVATE_KEY],
       chainId: 5,
+      blockConfirmations: 6,
+    },
+    mumbai: {
+      url: MUMBAI_RPC_URL,
+      accounts: [PRIVATE_KEY],
+      chainId: 80001,
+      blockConfirmations: 6,
+    },
+    arbitrum: {
+      url: ARBY_RPC_URL,
+      accounts: [PRIVATE_KEY],
+      chainId: 80001,
+      blockConfirmations: 6,
+    },
+    optimism: {
+      url: OP_RPC_URL,
+      accounts: [PRIVATE_KEY],
+      chainId: 80001,
       blockConfirmations: 6,
     },
   },

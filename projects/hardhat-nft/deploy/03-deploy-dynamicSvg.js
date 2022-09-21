@@ -33,6 +33,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     console.log(dynamicSvgNft.address);
     await verify(dynamicSvgNft.address, args);
   }
+
+  console.log("dynamicsvg deployed");
 };
 
 module.exports.tags = ["dynamicsvg", "all", "main"];

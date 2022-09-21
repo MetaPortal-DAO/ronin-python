@@ -5,3 +5,10 @@
 2. upload images AND the metadata
 - construct metadata as template in deploy script 
 - use response from storing images to IPFS to populate object params
+
+3. RandomNFT
+- use chainlink VRF and then an array of nums to randomly set URI
+
+4. SVG (everything on chain)
+- create variable string via abi.encodepacked (for string concat) 
+- or just use new string concat method in solidity 
