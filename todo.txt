@@ -1,0 +1,8 @@
+1. implement caching for getting monthly dfs (cause its damn slow) - daniel
+2. optimize 1. 
+3. find biggest whale addresses 
+4. export addresses to json 
+5. etherscan API to see what those addresses are up to 
+6. ML to classify those addresses
+7. see timestamp of whale tx and see what timezone they're in 
+8. see gini coefficient of weth transfers

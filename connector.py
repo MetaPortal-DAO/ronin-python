@@ -8,14 +8,14 @@ from dateutil import rrule
 from datetime import datetime, timedelta
 import time
 
-first_time = True
+first_time = False
 
 username = os.getenv("MONGO_USERNAME")
 password = os.getenv("MONGO_PASSWORD")
 
-now = datetime.now()
-one_month_ago = now - timedelta(days=30)
-timeframe = datetime.now()
+now = datetime.utcnow()
+one_month_ago = now - timedelta(days=15)
+timeframe = datetime.utcnow()
 
 cluster = pymongo.MongoClient(f"mongodb+srv://{username}:{password}@cluster0.2lmaniy.mongodb.net/?retryWrites=true&w=majority")
 db = cluster["ronin-indexer"]
@@ -30,20 +30,8 @@ if (first_time):
 else: 
     timeframe = one_month_ago
     
-for dt in rrule.rrule(rrule.MONTHLY, dtstart=now, until=timeframe):
-    unixtime = time.mktime(dt.timetuple())
-    unixtime1 = time.mktime((dt+timedelta(days=30)).timetuple())
-    df = pd.DataFrame(collection.aggregate([
-            {
-                "$redact": {
-                    "$cond": [
-                        # put dates here for each month 
-                        { "$gt": [ f"{unixtime}", f"{unixtime1}" ] },
-                        "$$KEEP",
-                        "$$PRUNE"
-                    ]
-                }
-            }
-        ]))
+for dt in rrule.rrule(rrule.MONTHLY, dtstart=timeframe, until=now):
+    df = pd.DataFrame(collection.find({'ts':{'$gte':timeframe, '$lt':now}}))
+    print(df)
     dflist.append(dflist)
 
