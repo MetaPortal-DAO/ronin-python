@@ -13,6 +13,22 @@ db = cluster["ronin-indexer"]
 
 collection = db["0xc99a6a985ed2cac1ef41640596c5a5f9f4e19ef5"]
 
+# unix timestamp to mongodb months
+for month in months: 
+    collection.aggregate([
+        {
+            "$redact": {
+                "$cond": [
+                    
+                    # put dates here for each month 
+                    { "$gt": [ "$Grade1", "$Grade2" ] },
+                    "$$KEEP",
+                    "$$PRUNE"
+                ]
+            }
+        }
+    ])
+
 results = collection.find({"from": "7543d33a8dcb325a58921e237d49ff2829b50339"})
 
 for result in results:
