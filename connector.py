@@ -36,5 +36,3 @@ def query_mongo(first_time):
             return df
     
     return dflist
-
-
