@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const goerli_link = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB";
 const address = "0xa02f533c8eb69708cbe7df579093bf5518abc485";
-const RPC = "POKT";
+const RPC = process.env.RPC;
 const network = "GOERLI";
 
 async function main() {
