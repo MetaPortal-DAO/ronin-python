@@ -55,7 +55,7 @@ def query_mongo(first_time):
             df = pd.DataFrame(collection.find({'ts':{'$gte':dt, '$lt':(dt+timedelta(days=30))}}))
             df.to_csv(CACHE_FILE, index=None)
             if first_time == True: 
-                dflist.append(dflist)
+                dflist.append(df)
     
     return dflist
 
