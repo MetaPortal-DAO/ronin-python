@@ -1,5 +1,4 @@
 from multiprocessing.sharedctypes import Value
-import awswrangler as wr
 import boto3
 import os
 import json
@@ -14,11 +13,9 @@ def set_default_session(table):
                           aws_access_key_id=os.getenv("AWS_ACCESS_KEY"),
                           aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
                           region_name="us-east-1")
-    print(dynamodb)
     try: 
         table = dynamodb.Table(table)
     except:
         raise Exception(KeyError("table does not exist in dynamo"))
     return table
 
-set_default_session("weth")
