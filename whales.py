@@ -1,8 +1,7 @@
 from connector import query_mongo
+from dynamo_utils import set_default_session
 
-df = query_mongo(False)
-df.value = df.value.apply(int, base=16)
+WETH_STRING="0xc99a6a985ed2cac1ef41640596c5a5f9f4e19ef5"
 
-# get WETH transfers to the treasury 
-top_whales_df = df.iloc[df.to == "a99cacd1427f493a95b585a5c7989a08c86a616b"].sort_values(ascending=False).iloc[0:100]
-print(top_whales_df)
+table = set_default_session("WETH")
+table.query
